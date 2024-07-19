@@ -1,0 +1,866 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <!-- Import Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Production Ontime Status</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 2px solid #bfbebe;
+      }
+
+      th,
+      td:not(:nth-child(1)) {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 3px 1px;
+      }
+
+      td:nth-child(1) {
+        /* border: 1px solid #ddd; */
+        text-align: center;
+        padding: 3px 1px;
+      }
+
+      tr:nth-child(3),
+      tr:nth-child(6) {
+        border-bottom: 2px solid #bfbebe;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .edit-btn,
+      .save-btn,
+      .delete-btn {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+      }
+
+      .edit-btn:hover,
+      .save-btn:hover,
+      .delete-btn:hover {
+        color: darkblue;
+      }
+
+      form {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      form input[type="text"] {
+        padding: 8px;
+        width: 200px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      form button {
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      form button:hover {
+        background-color: #45a049;
+      }
+
+      #dateFilter {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      "
+    >
+      <img
+        src="{% static 'imop.png' %}"
+        alt=""
+        width="180"
+        height="80"
+        style="margin-right: 10px"
+      />
+      India Metal One Steel Plate Processing Private Limited
+    </h2>
+    <hr>
+    <h2
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      "
+    >
+      Production On Time Status
+    </h2>
+
+    <div id="dateFilter">
+      <br />
+      <label for="filterDate">Filter by Date:</label>
+      <input type="date" id="filterDate" onchange="filterTableByDate()" />
+      <button
+        type="button"
+        onclick="clearFilter()"
+        style="
+          background-color: #1e7d6f;
+          color: #eee;
+          border-radius: 05%;
+          padding: 5px;
+          border: 1px solid rgb(171, 171, 171);
+        "
+      >
+        Today
+      </button>
+    </div>
+    <h3>KCEI BOOM</h3>
+
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Type</th>
+          <th>Input</th>
+          <th>Reason</th>
+          <th>08</th>
+          <th>09</th>
+          <th>10</th>
+          <th>11</th>
+          <th>12</th>
+          <th>13</th>
+          <th>14</th>
+          <th>15</th>
+          <th>16</th>
+          <th>17</th>
+          <th>18</th>
+          <th>19</th>
+          <th>20</th>
+          <th>21</th>
+          <th>22</th>
+          <th>23</th>
+          <th>00</th>
+          <th>01</th>
+          <th>02</th>
+          <th>03</th>
+          <th>04</th>
+          <th>05</th>
+          <th>06</th>
+          <th>07</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td style="background: pink"></td>
+          <td class="sub-cat" data-sub="1">Plan qty</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: pink">Original plan</td>
+          <td class="sub-cat" data-sub="2">Plan Man</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: pink"></td>
+          <td class="sub-cat" data-sub="3">Plan Material</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: gold"></td>
+          <td class="sub-cat" data-sub="4">Actual qty</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: gold">Revised plan</td>
+          <td class="sub-cat" data-sub="5">Actual man</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: gold"></td>
+          <td class="sub-cat" data-sub="6">Actual Material</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: powderblue"></td>
+          <td class="sub-cat" data-sub="7">Result qty</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: powderblue">Result input 1hr Once</td>
+          <td class="sub-cat" data-sub="8">Result Man</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+        <tr>
+          <td style="background: powderblue"></td>
+          <td class="sub-cat" data-sub="9">Result Material</td>
+          <td contenteditable="false"></td>
+          <td></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+          <td contenteditable="false"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="text-align: center">
+      <button
+        id="save_data"
+        style="
+          background-color: #1e7d21;
+          color: #eee;
+          border-radius: 05%;
+          padding: 10px 15px;
+          border: 1px solid rgb(171, 171, 171);
+        "
+      >
+        Submit
+      </button>
+    </div>
+  </body>
+
+  <script>
+    $.ajaxSetup({
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+    });
+    function saveRow(button) {
+      var date_ = $("#filterDate").val();
+      if (!date_) {
+        // If date_ is falsy (null, undefined, empty string, etc.)
+        date_ = new Date().toISOString().slice(0, 10); // Set date_ to current date
+      }
+      console.log(date_, "cccccc");
+      const row = button.parentElement.parentElement;
+      const cells = row.querySelectorAll("td");
+      const cls_sub_cat = row.querySelector(".sub-cat").dataset.sub;
+
+      const row_ = [];
+
+      for (let j = 0; j < cells.length - 1; j++) {
+        if (j == 1) {
+          row_.push(cls_sub_cat);
+        } else {
+          row_.push(cells[j].innerText);
+        }
+      }
+
+      data.push(row_);
+      postData = data;
+      // Get all rows in the table body
+      const allRows = document.querySelectorAll("#myTable tbody tr");
+      // Calculate the indices of the last three rows
+      const lastThreeRows = [
+        allRows.length - 3,
+        allRows.length - 2,
+        allRows.length - 1,
+      ];
+
+      // Check if the current row is one of the last three rows
+      const rowIndex = Array.from(allRows).indexOf(row);
+      if (lastThreeRows.includes(rowIndex)) {
+        let sum = 0;
+        for (let i = 5; i <= 27; i++) {
+          sum += parseFloat(cells[i].textContent) || 0;
+        }
+
+        const inputCell = cells[2];
+        inputCell.textContent = sum;
+
+        if (sum >= 0 && sum < 2) {
+          inputCell.style.backgroundColor = "red";
+        } else if (sum >= 2 && sum < 6) {
+          inputCell.style.backgroundColor = "orange";
+        } else if (sum >= 6) {
+          inputCell.style.backgroundColor = "yellowgreen";
+        } else {
+          inputCell.style.backgroundColor = "";
+        }
+      }
+      postData = JSON.stringify(postData);
+
+      // AJAX POST request
+      $.ajax({
+        type: "POST",
+        url: "/save_record/", // Replace with your Django view URL
+        data: { postData, date_ },
+        dataType: "json",
+        success: function (response) {
+          console.log("Success:");
+          // Handle success response
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+          // Handle error response
+        },
+      });
+
+      row.classList.remove("editing");
+      cells[2].contentEditable = "false";
+      for (let i = 5; i <= 27; i++) {
+        cells[i].contentEditable = "false";
+      }
+      button.textContent = "Edit";
+      button.setAttribute("onclick", "editRow(this)");
+    }
+
+    function filterTableByDate() {
+      const filterDate = document.getElementById("filterDate").value;
+      const rows = document.querySelectorAll("#myTable tbody tr");
+
+      $.ajax({
+        type: "POST",
+        url: "/filterDate/", // Replace with your Django view URL
+        data: { filterDate: filterDate },
+        success: function (response) {
+          $("#myTable").html(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+          // Handle error response
+        },
+      });
+    }
+
+    function clearFilter() {
+      location.reload();
+    }
+  </script>
+
+  <script>
+    // Function to populate the table dynamically and update specific columns
+    function populateTable(res_obj_json) {
+      var table = document.getElementById('myTable');
+      var tbody = table.querySelector('tbody');
+
+      // Iterate over the JSON data and update table rows directly
+      res_obj_json.forEach(function (data) {
+        // Find the correct row based on sub_category matching data-sub
+        var rows = tbody.querySelectorAll('tr');
+
+        rows.forEach(function (row) {
+          var subCat = row.querySelector('.sub-cat').getAttribute('data-sub');
+          if (subCat == data.fields.sub_category) {
+            var cells = row.querySelectorAll('td');
+            // Update columns directly without using calculations
+            cells[2].textContent = data.fields.input || '';
+            cells[3].textContent = data.fields.reason || '';
+            cells[4].textContent = data.fields.time_0800 || '';
+            cells[5].textContent = data.fields.time_0900 || '';
+            cells[6].textContent = data.fields.time_1000 || '';
+            cells[7].textContent = data.fields.time_1100 || '';
+            cells[8].textContent = data.fields.time_1200 || '';
+            cells[9].textContent = data.fields.time_1300 || '';
+            cells[10].textContent = data.fields.time_1400 || '';
+            cells[11].textContent = data.fields.time_1500 || '';
+            cells[12].textContent = data.fields.time_1600 || '';
+            cells[13].textContent = data.fields.time_1700 || '';
+            cells[14].textContent = data.fields.time_1800 || '';
+            cells[15].textContent = data.fields.time_1900 || '';
+            cells[16].textContent = data.fields.time_2000 || '';
+            cells[17].textContent = data.fields.time_2100 || '';
+            cells[18].textContent = data.fields.time_2200 || '';
+            cells[19].textContent = data.fields.time_2300 || '';
+            cells[20].textContent = data.fields.time_0000 || '';
+            cells[21].textContent = data.fields.time_0100 || '';
+            cells[22].textContent = data.fields.time_0200 || '';
+            cells[23].textContent = data.fields.time_0300 || '';
+            cells[24].textContent = data.fields.time_0400 || '';
+            cells[25].textContent = data.fields.time_0500 || '';
+            cells[26].textContent = data.fields.time_0600 || '';
+            cells[27].textContent = data.fields.time_0700 || '';
+
+            if ([8, 9, 10].includes(subCat)) {
+              // Calculate sum of values in cells 4 to 14
+              var sum = 0;
+              for (var i = 4; i <= 27; i++) {
+                var value = parseInt(cells[i].textContent) || 0;
+                sum += value;
+              }
+              console.log(sum, 'summmmmm ')
+
+              // Update the content of the 3rd cell with the calculated sum
+              cells[2].textContent = sum;
+
+              const inputCell = cells[2];
+
+
+              if (sum >= 0 && sum < 2) {
+                inputCell.style.backgroundColor = 'red';
+              } else if (sum >= 2 && sum < 6) {
+                inputCell.style.backgroundColor = 'orange';
+              } else if (sum >= 6) {
+                inputCell.style.backgroundColor = 'yellowgreen';
+              } else {
+                inputCell.style.backgroundColor = '';
+              }
+            }
+
+            const rows = document.querySelectorAll('table tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+
+                for (let i = 2; i <= 27; i++) {
+                    if (cells[i]) {
+                        cells[i].setAttribute('contenteditable', 'true');
+                    }
+                }
+            });
+
+          }
+        });
+      });
+    }
+
+    // Call the function to populate and update the table when the document is ready
+    $(document).ready(function () {
+      var res_obj_json = {{ res_obj| safe }};
+      populateTable(res_obj_json);
+
+      const rows = document.querySelectorAll('table tr');
+      $('#myTable').on('input', 'td[contenteditable="true"]', function () {
+        var newContent = $(this).text();
+        var $row = $(this).closest('tr'); // Find the closest row
+        var subCatVal = $row.find('.sub-cat').data('sub'); // Get the data-sub value
+
+        // Check if subCatVal is in the array [7, 8, 9]
+        if ([4, 7, 8, 9].includes(subCatVal)) {
+          var sum = 0;
+          count = 0; 
+          $row.find('td').each(function (index) {
+            if (index > 3) { // Skip indexes 0, 1, 2, and 3
+              var value = parseFloat($(this).text()) || 0; // Convert text to float, default to 0 if NaN
+              sum += value;
+              if(parseFloat($(this).text())){count+=1}
+
+            }
+          });
+          console.log(sum, 'summmmmmm',count,'countttttt')
+          // Replace the value of the cell at index 2 with the sum
+          if ([4, 7].includes(subCatVal)) {
+            $row.find('td').eq(2).text(sum);
+          }
+          else {
+            $row.find('td').eq(2).text((sum / count).toFixed(2));
+          }
+
+        }
+      });
+
+    });
+  </script>
+
+  {% comment %}Data Saving Code{% endcomment %}
+  <script>
+    function saveRow(row) {
+      var date_ = $("#filterDate").val();
+      if (!date_) {
+        // If date_ is falsy (null, undefined, empty string, etc.)
+        date_ = new Date().toISOString().slice(0, 10); // Set date_ to current date
+      }
+      console.log(date_, "cccccc )))))))))");
+      const cells = row.querySelectorAll("td");
+      const cls_sub_cat = row.querySelector(".sub-cat").dataset.sub;
+      console.log("cls_sub_cat cls_sub_cat >>>>>>", cls_sub_cat);
+      let data = [];
+
+      const row_ = [];
+
+      for (let j = 0; j < cells.length; j++) {
+        if (j == 1) {
+          row_.push(cls_sub_cat);
+        } else {
+          row_.push(cells[j].innerText);
+        }
+      }
+
+      data.push(row_);
+      let postData = data;
+      console.log(postData, "postData >>>>>>>");
+      // Get all rows in the table body
+      const allRows = document.querySelectorAll("#myTable tbody tr");
+      // Calculate the indices of the last three rows
+      const lastThreeRows = [
+        allRows.length - 3,
+        allRows.length - 2,
+        allRows.length - 1,
+      ];
+
+      // Check if the current row is one of the last three rows
+      const rowIndex = Array.from(allRows).indexOf(row);
+      if (lastThreeRows.includes(rowIndex)) {
+        let sum = 0;
+        count = 0
+        for (let i = 4; i <= 27; i++) {
+          sum += parseFloat(cells[i].textContent) || 0;
+   
+        if(parseFloat(cells[i].textContent)){count+=1}
+        
+        }
+
+        if (rowIndex == 6) {
+          sum = sum;
+        } else {
+          sum = sum / count;
+        }
+        const inputCell = cells[2];
+
+        console.log(sum, "summmmmm", rowIndex,count);
+        if (sum >= 0 && sum < 2) {
+          inputCell.style.backgroundColor = "red";
+        } else if (sum >= 2 && sum < 6) {
+          inputCell.style.backgroundColor = "orange";
+        } else if (sum >= 6) {
+          inputCell.style.backgroundColor = "yellowgreen";
+        } else {
+          inputCell.style.backgroundColor = "";
+        }
+      }
+      postData = JSON.stringify(postData);
+      // AJAX POST request
+      $.ajax({
+        type: "POST",
+        url: "/save_record/", // Replace with your Django view URL
+        data: { postData, date_ },
+        dataType: "json",
+        success: function (response) {
+          console.log("Success:");
+          
+          // Handle success response
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+          // Handle error response
+        },
+      });
+      row.classList.remove("editing");
+    }
+    function saveAllRows() {
+      const allRows = document.querySelectorAll("#myTable tbody tr");
+      allRows.forEach((row) => {
+        saveRow(row);
+      });
+    }
+    // Call saveAllRows to save data for all rows
+    $("#save_data").click(function () {
+      saveAllRows();
+    });
+  </script>
+  {% comment %}Data Saving Code End{% endcomment %}
+
+  <script>
+    // Function to get the current date in YYYY-MM-DD format
+    function getCurrentDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    // Set the value of the date input to the current date
+    document.getElementById("filterDate").value = getCurrentDate();
+
+    $(document).ready(function () {
+      const allRows = $("#myTable tbody tr");
+      if (allRows.length >= 3) {
+        const lastThreeRows = allRows.slice(-3);
+
+        lastThreeRows.each(function (rowIndex) {
+          const cells = $(this).find("td");
+          let sum = 0;
+          let count = 0
+          for (let i = 4; i <= 27; i++) {
+            sum += parseFloat(cells.eq(i).text()) || 0;
+            if(cells.eq(i).text()){count+=1}
+
+          }
+          if (rowIndex == 0) {
+            sum = sum;
+          } else {
+            sum = sum / count;
+          }
+          console.log(sum, "iiiiiiiii", rowIndex,count);
+          const inputCell = cells.eq(2);
+
+          if (sum >= 0 && sum < 2) {
+            inputCell.css("background-color", "red");
+          } else if (sum >= 2 && sum < 6) {
+            inputCell.css("background-color", "orange");
+          } else if (sum >= 6) {
+            inputCell.css("background-color", "yellowgreen");
+          } else {
+            inputCell.css("background-color", "");
+          }
+        });
+      }
+      const rows = document.querySelectorAll("table tr");
+      rows.forEach((row) => {
+        const cells = row.querySelectorAll("td");
+
+        for (let i = 2; i <= 27; i++) {
+          if (cells[i]) {
+            cells[i].setAttribute("contenteditable", "true");
+          }
+        }
+      });
+    });
+  </script>
+</html>
